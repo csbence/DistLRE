@@ -41,7 +41,8 @@ def execute_task(internal_task):
     internal_task.future.set_running_or_notify_cancel()
 
     try:
-        completed_process = run(task.command, input=task.input, stdout=PIPE, timeout=task.time_limit)
+        completed_process = run([task.command], input=task.input, stdout=PIPE, stderr=PIPE,
+                                timeout=task.time_limit, shell=True)
         task.output = completed_process.stdout.decode('utf-8')
         task.error = completed_process.stderr.decode('utf-8')
 

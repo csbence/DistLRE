@@ -48,11 +48,12 @@ def execute_remote_task(client, internal_task):
     try:
         stdin, stdout, stderr = client.exec_command(task.command)
 
-        stdin.write(task.input)
-        stdin.flush()
+        if task.input:
+            stdin.write(task.input)
+            stdin.flush()
 
-        task.output = stdout.readlines()
-        task.error = stderr.readlines()
+        task.output = ''.join(stdout.readlines())
+        task.error = ''.join(stderr.readlines())
 
         internal_task.future.set_result(task)
     except Exception as e:
