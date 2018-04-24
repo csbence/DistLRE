@@ -4,8 +4,7 @@ A lightweight Python package to distribute commands on remote hosts via SSH and 
 
 Supports running a local commands:
 
-```
-python
+```python
 from distlre.distlre import DistLRE, Task, RemoteHost
 executor = DistLRE(local_threads=1)
 
@@ -18,8 +17,7 @@ print(future.result().output)
 
 Or runs command on a remote host:
 
-```
-python
+```python
 import getpass
 password = getpass.getpass("Password to connect to [localhost]:")
 executor = DistLRE(remote_hosts=[RemoteHost('localhost', port=31415, password=password)])
