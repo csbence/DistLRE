@@ -1,4 +1,4 @@
-# DistLRE
+# DistLRE (dist-el-r-ee)
 
 A lightweight Python package to distribute commands on remote hosts via SSH and to execute them locally in parallel.
 
