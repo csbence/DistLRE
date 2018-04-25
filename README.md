@@ -30,3 +30,7 @@ executor.execute_tasks()
 executor.wait()
 print(future.result().output)
 ```
+
+# Install
+
+`pip3 install DistLRE`
