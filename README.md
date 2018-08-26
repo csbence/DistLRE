@@ -1,5 +1,3 @@
-![distlre PyPI Downloads](https://pypistats.com/badge/distlre.png)
-
 # DistLRE (dist-el-ar-ee)
 
 A lightweight Python package to distribute commands on remote hosts via SSH and to execute them locally in parallel.
