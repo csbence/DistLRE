@@ -1,4 +1,6 @@
-from setuptools import setup, find_packages
+from distutils.core import setup
+import setuptools
+
 from codecs import open
 from os import path
 
@@ -9,12 +11,12 @@ with open(path.join(here, 'README.md'), encoding='utf-8') as f:
 
 setup(
     name='distlre',
-    version='0.0.1',
+    version='0.0.3',
     description='A Python package to distribute commands on remote hosts via'
                 'SSH and to execute them locally in parallel.',
     long_description=long_description,
     url='https://github.com/csbence/DistLRE',
     author='Bence Cserna',
-    packages=find_packages(),
+    packages=setuptools.find_packages(".", include=("distlre*",)),
     install_requires=['paramiko']
 )
