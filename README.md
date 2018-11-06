@@ -1,4 +1,4 @@
-# DistLRE (dist-el-ar-ee)
+# DistLRE (dist-el-ar-ee)[![Downloads](https://pepy.tech/badge/distlre)](https://pepy.tech/project/distlre)
 
 A lightweight Python package to distribute commands on remote hosts via SSH and to execute them locally in parallel.
 
