@@ -46,7 +46,6 @@ def execute_task(internal_task):
 
     try:
         setrlimit(RLIMIT_AS, (task_memory_limit, task_memory_limit))
-        print(getrlimit(RLIMIT_AS))
         completed_process = run([task.command], input=task.input, stdout=PIPE, stderr=PIPE,
                                 timeout=task.time_limit, shell=True)
         task.output = completed_process.stdout.decode('utf-8')
