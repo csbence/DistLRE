@@ -1,6 +1,7 @@
 from queue import Empty
 from subprocess import run, PIPE
 from threading import Thread
+from resource import setrlimit, RLIMIT_AS, getrlimit
 
 
 class LocalExecutor:
@@ -39,8 +40,12 @@ class LocalWorker(Thread):
 def execute_task(internal_task):
     task = internal_task.task
     internal_task.future.set_running_or_notify_cancel()
+    task_memory_limit = 7 * 1024 * 1024 * 1024  # 7 GB
+    if task.memory_limit is not None:
+        task_memory_limit = task.memory_limit * 1024 * 1024 * 1024
 
     try:
+        setrlimit(RLIMIT_AS, (task_memory_limit, task_memory_limit))
         completed_process = run([task.command], input=task.input, stdout=PIPE, stderr=PIPE,
                                 timeout=task.time_limit, shell=True)
         task.output = completed_process.stdout.decode('utf-8')

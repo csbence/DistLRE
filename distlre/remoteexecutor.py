@@ -3,6 +3,7 @@ from threading import Thread
 
 import paramiko
 from os import path
+from resource import setrlimit, RLIMIT_AS
 
 
 class RemoteExecutor:
@@ -45,8 +46,13 @@ def execute_remote_task(client, internal_task):
     task = internal_task.task
     internal_task.future.set_running_or_notify_cancel()
 
+    task_memory_limit = 7 * 1024 * 1024 * 1024  # 7 GB
+    if task.memory_limit is not None:
+        task_memory_limit = task.memory_limit * 1024 * 1024 * 1024
+
     try:
-        stdin, stdout, stderr = client.exec_command(task.command)
+        setrlimit(RLIMIT_AS, (task_memory_limit, task_memory_limit))
+        stdin, stdout, stderr = client.exec_command(task.command, timeout=task.time_limit)
 
         if task.input:
             stdin.write(task.input)
