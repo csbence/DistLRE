@@ -22,7 +22,7 @@ Or runs command on a remote host:
 ```python
 import getpass
 password = getpass.getpass("Password to connect to [localhost]:")
-executor = DistLRE(remote_hosts=[RemoteHost('localhost', port=31415, password=password)])
+executor = DistLRE(remote_hosts=[RemoteHost('localhost', port=22, password=password)])
 
 task = Task(command='ls ~', meta='META', time_limit=10, memory_limit=10)
 other_task = Task(command='cd ~', meta='META', time_limit=10, memory_limit=10)
