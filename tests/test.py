@@ -1,13 +1,13 @@
 from distlre.distlre import DistLRE, Task, RemoteHost
 import unittest
-import getpass
 
 
 class TestLocalExecutor(unittest.TestCase):
     def test_local(self):
         executor = DistLRE(local_threads=1)
 
-        task = Task(command='ls ~', meta='META', time_limit=10, memory_limit=10)
+        task = Task(command='~/CLionProjects/search/cmake-build-release/search wastar unit_tiles 1.2 1',
+                    meta='META', time_limit=10, memory_limit=10)
         future = executor.submit(task)
         executor.execute_tasks()
         executor.wait()
@@ -16,8 +16,7 @@ class TestLocalExecutor(unittest.TestCase):
 
 class TestRemoteExecutor(unittest.TestCase):
     def test_remote(self):
-        password = getpass.getpass("Password to connect to [localhost]:")
-        executor = DistLRE(remote_hosts=[RemoteHost('localhost', port=31415, password=password)])
+        executor = DistLRE(remote_hosts=[RemoteHost('localhost', port=31415, password=None)])
 
         task = Task(command='ls ~', meta='META', time_limit=10, memory_limit=10)
         future = executor.submit(task)

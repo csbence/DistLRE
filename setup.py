@@ -18,5 +18,5 @@ setup(
     url='https://github.com/csbence/DistLRE',
     author='Bence Cserna',
     packages=setuptools.find_packages(".", include=("distlre*",)),
-    install_requires=['paramiko']
+    install_requires=['paramiko', 'psutil']
 )

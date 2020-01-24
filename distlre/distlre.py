@@ -1,5 +1,6 @@
 from concurrent.futures import Future
 from queue import Queue
+from multiprocessing import Lock
 
 
 class Task:
