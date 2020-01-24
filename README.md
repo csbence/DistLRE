@@ -34,14 +34,12 @@ if __name__ == '__main__':
     print(psutil.virtual_memory().used)
 ```
 
-Now we can use this simple script when accessing your remote machine to report its memory usage, and track it during task execution:
+Now we can use this simple script when accessing your remote machine (make sure you have added the host to remote hosts and you have key log-in over ssh enabled) to report its memory usage, and track it during task execution:
 
 ```python
-import getpass
-password = getpass.getpass("Password to connect to [localhost]:")
 executor = DistLRE(remote_hosts=[RemoteHost('localhost', 
                                             mem_check='source ~/.bashrc && getpsutil',
-                                            port=22, password=password)])
+                                            port=22)])
 
 task = Task(command='ls ~', meta='META', time_limit=10, memory_limit=10)
 other_task = Task(command='cd ~', meta='META', time_limit=10, memory_limit=10)
