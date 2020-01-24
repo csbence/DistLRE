@@ -11,12 +11,12 @@ with open(path.join(here, 'README.md'), encoding='utf-8') as f:
 
 setup(
     name='distlre',
-    version='0.0.3',
+    version='0.0.5',
     description='A Python package to distribute commands on remote hosts via'
                 'SSH and to execute them locally in parallel.',
     long_description=long_description,
     url='https://github.com/csbence/DistLRE',
-    author='Bence Cserna',
+    author='Bence Cserna, William Doyle',
     packages=setuptools.find_packages(".", include=("distlre*",)),
     install_requires=['paramiko', 'psutil']
 )
