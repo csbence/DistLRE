@@ -3,6 +3,7 @@ from threading import Thread
 from subprocess import Popen, PIPE, run
 
 import time
+import getpass
 
 
 class RemoteExecutor:
@@ -51,7 +52,10 @@ def execute_remote_task(host, internal_task):
     try:
         start = time.time()
 
-        auth = host.username + "@" + host.hostname + " -p " + host.port
+        if host.username is None:
+            host.username = getpass.getuser()
+
+        auth = host.username + "@" + host.hostname + " -p " + str(host.port)
 
         process = Popen("exec ssh " + auth + " " + task.command,
                         stdin=PIPE, stdout=PIPE, stderr=PIPE, shell=True)
@@ -60,11 +64,15 @@ def execute_remote_task(host, internal_task):
             process.stdin.write(task.input)
 
         while process.poll() is None:
-            mem_proc = Popen("exec ssh " + auth + " python ./getpsutil.py",
+            mem_proc = Popen("ssh " + auth + " " + host.mem_check,
                              stdout=PIPE, shell=True)
-            mem_proc.wait()
 
-            mem_used = int(mem_proc.stdout.readline())
+            mem_stdout, mem_stderr = mem_proc.communicate()
+
+            mem_output = mem_stdout.decode('utf-8')
+
+            mem_used = int(mem_output)
+
             mem_proc.stdout.close()
             if mem_used >= task_memory_limit:
                 internal_task.task.output = "OutOfMemory exceeded max_bytes: " + str(mem_used)

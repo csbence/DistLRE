@@ -20,8 +20,9 @@ class InternalTask:
 
 
 class RemoteHost:
-    def __init__(self, hostname, port=22, username=None, password=None, key_file_path=None):
+    def __init__(self, hostname, mem_check=None, port=22, username=None, password=None, key_file_path=None):
         self.hostname = hostname
+        self.mem_check = mem_check
         self.port = port
         self.username = username
         self.password = password
