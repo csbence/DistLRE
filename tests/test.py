@@ -7,7 +7,7 @@ class TestLocalExecutor(unittest.TestCase):
         executor = DistLRE(local_threads=1)
 
         task = Task(command='ls ~',
-                    meta='META', time_limit=10, memory_limit=10)
+                    meta='META', time_limit=10, memory_limit=10.5)
         future = executor.submit(task)
         executor.execute_tasks()
         executor.wait()
