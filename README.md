@@ -4,7 +4,9 @@
 
 A lightweight Python package to distribute commands on remote hosts via SSH and to execute them locally in parallel.
 
-Supports running a local commands:
+Runs a parallel process for each task to monitor system resources effectively.
+
+Supports running a local commands, time limit is expressed in seconds and memory limit is in GB:
 
 ```python
 from distlre.distlre import DistLRE, Task, RemoteHost
@@ -17,12 +19,29 @@ executor.wait()
 print(future.result().output)
 ```
 
-Or runs command on a remote host:
+Or runs command on a remote host, done over ssh and requires a user-specified method of reporting memory usage.
+
+A simple memory reporter can be made using the `psutil` package and adding the script to your `/usr/bin` in order for it to be executed.
+
+For example if we created a file called `getpsutil` (make sure to have `psutil` installed to your default Python env or specify the correct one for your usage at the top:
+
+```python
+#! /usr/bin/env python
+
+import psutil
+
+if __name__ == '__main__':
+    print(psutil.virtual_memory().used)
+```
+
+Now we can use this simple script when accessing your remote machine to report its memory usage, and track it during task execution:
 
 ```python
 import getpass
 password = getpass.getpass("Password to connect to [localhost]:")
-executor = DistLRE(remote_hosts=[RemoteHost('localhost', port=22, password=password)])
+executor = DistLRE(remote_hosts=[RemoteHost('localhost', 
+                                            mem_check='source ~/.bashrc && getpsutil',
+                                            port=22, password=password)])
 
 task = Task(command='ls ~', meta='META', time_limit=10, memory_limit=10)
 other_task = Task(command='cd ~', meta='META', time_limit=10, memory_limit=10)
