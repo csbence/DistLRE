@@ -6,7 +6,7 @@ class TestLocalExecutor(unittest.TestCase):
     def test_local(self):
         executor = DistLRE(local_threads=1)
 
-        task = Task(command='~/CLionProjects/search/cmake-build-release/search wastar unit_tiles 1.2 1',
+        task = Task(command='ls ~',
                     meta='META', time_limit=10, memory_limit=10)
         future = executor.submit(task)
         executor.execute_tasks()
